@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagar Alert Hub - Wireframes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .wireframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .wireframe {
+            background: white;
+            border: 2px solid #333;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .screen-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+            color: #333;
+        }
+        
+        .header {
+            background: #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #999;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .upload-box {
+            border: 2px dashed #999;
+            padding: 40px;
+            text-align: center;
+            background: #fafafa;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .input-box {
+            border: 1px solid #999;
+            padding: 12px;
+            background: #fafafa;
+            width: 100%;
+        }
+        
+        .dropdown {
+            border: 1px solid #999;
+            padding: 12px;
+            background: white;
+            width: 100%;
+            position: relative;
+        }
+        
+        .dropdown::after {
+            content: '▼';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+        }
+        
+        .button {
+            background: #666;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .button-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #666;
+        }
+        
+        .status-card {
+            border: 2px solid #999;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e0e0e0;
+            border: 1px solid #999;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .badge-high {
+            background: #d0d0d0;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .table th {
+            background: #e0e0e0;
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: left;
+            font-size: 12px;
+        }
+        
+        .table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 12px;
+            background: #fafafa;
+        }
+        
+        .chart-placeholder {
+            border: 2px solid #999;
+            padding: 30px;
+            text-align: center;
+            background: #fafafa;
+            margin-top: 20px;
+        }
+        
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 120px;
+            margin-top: 20px;
+        }
+        
+        .bar {
+            width: 60px;
+            background: #999;
+            border: 1px solid #666;
+        }
+        
+        .bar-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .icon-placeholder {
+            width: 30px;
+            height: 30px;
+            background: #ccc;
+            border: 1px solid #999;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .gps-info {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #fafafa;
+            border: 1px solid #999;
+            font-size: 13px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .small-button {
+            padding: 8px 15px;
+            font-size: 11px;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nagar Alert Hub</h1>
+        <p class="subtitle">Civic Technology Platform - Low-Fidelity Wireframes</p>
+        
+        <div class="wireframe-grid">
+            <!-- Screen 1: Citizen Complaint Submission -->
+            <div class="wireframe">
+                <div class="screen-title">Screen 1: Citizen Complaint Submission</div>
+                
+                <div class="header">Nagar Alert Hub</div>
+                
+                <div class="form-group">
+                    <span class="label">Upload Photo of Issue</span>
+                    <div class="upload-box">
+                        <div class="upload-icon">📷</div>
+                        <div>Tap to Upload Photo</div>
+                        <div style="font-size: 11px; margin-top: 5px;">or use camera</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <span class="label">Location (Auto-Captured)</span>
+                    <div class="gps-info">
+                        <span class="icon-placeholder"></span>
+                        <span>📍 GPS: 25.5941° N, 85.1376° E</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <span class="label">Select Issue Type</span>
+                    <div class="dropdown">
+                        Select issue category...
+                    </div>
+                    <div style="font-size: 11px; color: #666; margin-top: 5px;">
+                        Options: Road • Water • Lighting • Cleanliness • Other
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <span class="label">Additional Details (Optional)</span>
+                    <div class="input-box" style="height: 60px;">
+                        Describe the issue...
+                    </div>
+                </div>
+                
+                <button class="button">Submit Complaint</button>
+            </div>
+            
+            <!-- Screen 2: Complaint Status Tracking -->
+            <div class="wireframe">
+                <div class="screen-title">Screen 2: Complaint Status Tracking</div>
+                
+                <div class="header">My Complaints</div>
+                
+                <div class="status-card">
+                    <div class="status-row">
+                        <span class="status-label">Complaint ID:</span>
+                        <span>#NAH-2024-001234</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Issue Type:</span>
+                        <span>Road Damage</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Status:</span>
+                        <span class="badge">In Progress</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Priority:</span>
+                        <span class="badge badge-high">High</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Submitted:</span>
+                        <span>Dec 15, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-row">
+                        <span class="status-label">Complaint ID:</span>
+                        <span>#NAH-2024-001198</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Issue Type:</span>
+                        <span>Street Lighting</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Status:</span>
+                        <span class="badge">Resolved</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Priority:</span>
+                        <span class="badge">Medium</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Submitted:</span>
+                        <span>Dec 10, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-row">
+                        <span class="status-label">Complaint ID:</span>
+                        <span>#NAH-2024-001156</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Issue Type:</span>
+                        <span>Water Supply</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Status:</span>
+                        <span class="badge">Pending</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Priority:</span>
+                        <span class="badge badge-high">High</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Submitted:</span>
+                        <span>Dec 08, 2024</span>
+                    </div>
+                </div>
+                
+                <button class="button button-secondary">+ Submit New Complaint</button>
+            </div>
+            
+            <!-- Screen 3: Admin Dashboard -->
+            <div class="wireframe" style="grid-column: span 2;">
+                <div class="screen-title">Screen 3: Admin / Government Dashboard</div>
+                
+                <div class="header">Nagar Alert Hub - Admin Dashboard</div>
+                
+                <div style="margin-bottom: 20px;">
+                    <span class="label">Complaints Overview (Sorted by Priority)</span>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Issue Type</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#001234</td>
+                            <td>Road Damage</td>
+                            <td>Sector 5, Ward 12</td>
+                            <td><span class="badge badge-high">High</span></td>
+                            <td><span class="badge">In Progress</span></td>
+                            <td>Dec 15</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="button small-button">View</button>
+                                    <button class="button button-secondary small-button">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#001156</td>
+                            <td>Water Supply</td>
+                            <td>Colony Road, Ward 8</td>
+                            <td><span class="badge badge-high">High</span></td>
+                            <td><span class="badge">Pending</span></td>
+                            <td>Dec 08</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="button small-button">View</button>
+                                    <button class="button button-secondary small-button">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#001223</td>
+                            <td>Cleanliness</td>
+                            <td>Main Market, Ward 3</td>
+                            <td><span class="badge">Medium</span></td>
+                            <td><span class="badge">Pending</span></td>
+                            <td>Dec 14</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="button small-button">View</button>
+                                    <button class="button button-secondary small-button">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#001198</td>
+                            <td>Street Lighting</td>
+                            <td>Park Street, Ward 15</td>
+                            <td><span class="badge">Medium</span></td>
+                            <td><span class="badge">Resolved</span></td>
+                            <td>Dec 10</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="button small-button">View</button>
+                                    <button class="button button-secondary small-button">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#001187</td>
+                            <td>Road Damage</td>
+                            <td>Temple Road, Ward 6</td>
+                            <td><span class="badge">Low</span></td>
+                            <td><span class="badge">Pending</span></td>
+                            <td>Dec 09</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="button small-button">View</button>
+                                    <button class="button button-secondary small-button">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="chart-placeholder">
+                    <div class="label">Issues by Priority Level</div>
+                    <div class="chart-bars">
+                        <div>
+                            <div class="bar" style="height: 90px;"></div>
+                            <div class="bar-label">High<br>45</div>
+                        </div>
+                        <div>
+                            <div class="bar" style="height: 70px;"></div>
+                            <div class="bar-label">Medium<br>32</div>
+                        </div>
+                        <div>
+                            <div class="bar" style="height: 50px;"></div>
+                            <div class="bar-label">Low<br>23</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; color: #666; font-size: 12px; margin-top: 20px;">
+            Low-Fidelity Wireframes • Nagar Alert Hub • Civic Technology Platform for Tier-2 & Tier-3 Cities
+        </div>
+    </div>
+</body>
+</html>
