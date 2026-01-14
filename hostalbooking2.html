@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOSTELMATE - Mobile Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 667px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .screen.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        /* Splash Screen */
+        .splash {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+            text-align: center;
+            padding: 0 40px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Home Screen */
+        .home-content {
+            padding: 20px;
+            background: #f8f9fa;
+            min-height: calc(100% - 76px);
+        }
+
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #f1f3f5;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: 14px;
+            margin-left: 10px;
+            outline: none;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .hostel-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hostel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .hostel-image {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .hostel-info {
+            padding: 15px;
+        }
+
+        .hostel-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .hostel-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .location {
+            font-size: 13px;
+            color: #718096;
+            display: flex;
+            align-items: center;
+        }
+
+        .rating {
+            background: #fbbf24;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3a47d5;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* Hostel Details */
+        .details-content {
+            background: #f8f9fa;
+        }
+
+        .details-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 72px;
+        }
+
+        .details-body {
+            padding: 20px;
+        }
+
+        .details-header {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .details-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .details-section {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .facilities {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .facility-item {
+            text-align: center;
+        }
+
+        .facility-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 24px;
+        }
+
+        .facility-name {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .review-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 14px;
+        }
+
+        .review-rating {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        .review-text {
+            font-size: 13px;
+            color: #718096;
+            line-height: 1.5;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Owner Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .request-card {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .request-status {
+            background: #fbbf24;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+        }
+
+        .request-details {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 12px;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .accept-btn, .reject-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .accept-btn {
+            background: #10b981;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .accept-btn:hover, .reject-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Success Screen */
+        .success-screen {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            margin-bottom: 30px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            font-size: 15px;
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            width: 375px;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #718096;
+        }
+
+        .nav-item:hover {
+            color: #3a47d5;
+            transform: scale(1.1);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Splash Screen -->
+        <div class="screen splash active" id="splash">
+            <div class="logo">🏠 HOSTELMATE</div>
+            <div class="tagline">Find Safe & Affordable Hostels Easily</div>
+        </div>
+
+        <!-- Home Screen -->
+        <div class="screen" id="home">
+            <div class="header">
+                <div class="header-title">🏠 HOSTELMATE</div>
+                <button class="back-btn" onclick="showScreen('home')">⚙️</button>
+            </div>
+            <div class="home-content">
+                <div class="search-section">
+                    <div class="search-bar">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search city or college...">
+                    </div>
+                    <div class="filter-chips">
+                        <button class="chip">💰 Budget</button>
+                        <button class="chip">📍 Location</button>
+                        <button class="chip">🏅 Facilities</button>
+                    </div>
+                </div>
+
+                <div class="section-title">🔥 Featured Hostels</div>
+
+                <div class="hostel-card" onclick="showScreen('details')">
+                    <div class="hostel-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        🏢
+                        <div class="verified-badge">✓ Verified</div>
+                    </div>
+                    <div class="hostel-info">
+                        <div class="hostel-name">Sunrise Students Hostel</div>
+                        <div class="hostel-meta">
+                            <div class="location">📍 Near IIT Campus</div>
+                            <div class="rating">⭐ 4.5</div>
+                        </div>
+                        <div class="price">₹6,000 <span class="price-label">/ month</span></div>
+                    </div>
+                </div>
+
+                <div class="hostel-card" onclick="showScreen('details')">
+                    <div class="hostel-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        🏡
+                        <div class="verified-badge">✓ Verified</div>
+                    </div>
+                    <div class="hostel-info">
+                        <div class="hostel-name">Green Valley Girls Hostel</div>
+                        <div class="hostel-meta">
+                            <div class="location">📍 College Road</div>
+                            <div class="rating">⭐ 4.8</div>
+                        </div>
+                        <div class="price">₹5,500 <span class="price-label">/ month</span></div>
+                    </div>
+                </div>
+
+                <div class="hostel-card" onclick="showScreen('details')">
+                    <div class="hostel-image" style="background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);">
+                        🏠
+                        <div class="verified-badge">✓ Verified</div>
+                    </div>
+                    <div class="hostel-info">
+                        <div class="hostel-name">City Center Boys Hostel</div>
+                        <div class="hostel-meta">
+                            <div class="location">📍 Downtown Area</div>
+                            <div class="rating">⭐ 4.3</div>
+                        </div>
+                        <div class="price">₹7,200 <span class="price-label">/ month</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-bottom">
+                <div class="nav-item" onclick="showScreen('home')">
+                    <div class="nav-icon">🏠</div>
+                    <div class="nav-label">Home</div>
+                </div>
+                <div class="nav-item" onclick="showScreen('home')">
+                    <div class="nav-icon">🔍</div>
+                    <div class="nav-label">Search</div>
+                </div>
+                <div class="nav-item" onclick="showScreen('home')">
+                    <div class="nav-icon">❤️</div>
+                    <div class="nav-label">Saved</div>
+                </div>
+                <div class="nav-item" onclick="showScreen('dashboard')">
+                    <div class="nav-icon">👤</div>
+                    <div class="nav-label">Profile</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hostel Details Screen -->
+        <div class="screen" id="details">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('home')">←</button>
+                <div class="header-title">Hostel Details</div>
+                <button class="back-btn">❤️</button>
+            </div>
+            <div class="details-content">
+                <div class="details-image">🏢</div>
+                <div class="details-body">
+                    <div class="details-header">
+                        <div class="details-title">Sunrise Students Hostel</div>
+                        <div class="hostel-meta">
+                            <div class="location">📍 Near IIT Campus, 2km from College</div>
+                            <div class="rating">⭐ 4.5</div>
+                        </div>
+                        <div class="price" style="margin-top: 10px;">₹6,000 <span class="price-label">/ month</span></div>
+                    </div>
+
+                    <div class="details-section">
+                        <div class="section-title">🏅 Facilities</div>
+                        <div class="facilities">
+                            <div class="facility-item">
+                                <div class="facility-icon">🍽️</div>
+                                <div class="facility-name">Food</div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-icon">📶</div>
+                                <div class="facility-name">WiFi</div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-icon">🔒</div>
+                                <div class="facility-name">Security</div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-icon">❄️</div>
+                                <div class="facility-name">AC Rooms</div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-icon">👕</div>
+                                <div class="facility-name">Laundry</div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-icon">🅿️</div>
+                                <div class="facility-name">Parking</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <div class="section-title">📋 Rules & Safety</div>
+                        <div style="font-size: 14px; color: #718096; line-height: 1.8;">
+                            ✓ 24/7 CCTV Surveillance<br>
+                            ✓ Girls/Boys Only<br>
+                            ✓ No smoking or drinking<br>
+                            ✓ Guest visiting: 9 AM - 6 PM<br>
+                            ✓ Night curfew: 10 PM
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <div class="section-title">💬 Student Reviews</div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-name">Priya Sharma</div>
+                                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="review-text">Great hostel! Very safe and clean. Food quality is excellent. Highly recommended for girls.</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-name">Rahul Kumar</div>
+                                <div class="review-rating">⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="review-text">Good location near college. WiFi is fast. Owner is very supportive.</div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" onclick="showScreen('success')">📞 Contact / Book Now</button>
+                    <div style="height: 80px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Owner Dashboard -->
+        <div class="screen" id="dashboard">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('home')">←</button>
+                <div class="header-title">Owner Dashboard</div>
+                <button class="back-btn">➕</button>
+            </div>
+            <div class="home-content">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Active Hostels</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Pending Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.6</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+
+                <div class="section-title">📋 Booking Requests</div>
+
+                <div class="request-card">
+                    <div class="request-header">
+                        <div class="student-name">Anjali Verma</div>
+                        <div class="request-status">Pending</div>
+                    </div>
+                    <div class="request-details">
+                        📍 Sunrise Students Hostel<br>
+                        📅 Move-in: 15 Jan 2026<br>
+                        📧 anjali.v@email.com
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn">✓ Accept</button>
+                        <button class="reject-btn">✗ Reject</button>
+                    </div>
+                </div>
+
+                <div class="request-card">
+                    <div class="request-header">
+                        <div class="student-name">Vikram Singh</div>
+                        <div class="request-status">Pending</div>
+                    </div>
+                    <div class="request-details">
+                        📍 City Center Boys Hostel<br>
+                        📅 Move-in: 20 Jan 2026<br>
+                        📧 vikram.s@email.com
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn">✓ Accept</button>
+                        <button class="reject-btn">✗ Reject</button>
+                    </div>
+                </div>
+
+                <div class="section-title">🏠 Your Hostels</div>
+
+                <div class="hostel-card">
+                    <div class="hostel-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        🏢
+                    </div>
+                    <div class="hostel-info">
+                        <div class="hostel-name">Sunrise Students Hostel</div>
+                        <div class="hostel-meta">
+                            <div class="location">📍 Near IIT Campus</div>
+                            <div class="rating">⭐ 4.5</div>
+                        </div>
+                        <div class="price">8/10 <span class="price-label">rooms occupied</span></div>
+                    </div>
+                </div>
+
+                <div style="height: 80px;"></div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="screen success-screen" id="success">
+            <div class="success-icon">✓</div>
+            <div class="success-title">Booking Request Sent!</div>
+            <div class="success-message">
+                Your booking request has been successfully sent to the hostel owner. You will receive a confirmation message within 24 hours.
+            </div>
+            <button class="action-btn" onclick="showScreen('home')">Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Auto transition from splash to home
+        setTimeout(() => {
+            showScreen('home');
+        }, 2500);
+
+        function showScreen(screenId) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Add click feedback to buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('chip') || 
+                e.target.classList.contains('accept-btn') || 
+                e.target.classList.contains('reject-btn')) {
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = '';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
